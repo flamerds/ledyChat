@@ -1,0 +1,7 @@
+{
+    "CommandType":"ledyDsDisconnect",
+    "Command": "!ledyDisconnect",
+    "CommandDetails": "",
+    "RolesAllowed": ["Owner","Mod"],
+    "HelpDetails": "Disconnect ledy bot"
+}
