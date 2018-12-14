@@ -64,6 +64,7 @@ class ledyBotChat:
             await self.ledyPipeObj.pipeWriter("refresh {0} {1}".format(splitMsg[1],splitMsg[2])) 
         elif len(splitMsg) == 1:
             await self.ledyPipeObj.pipeWriter("refresh") 
+        await self.ledyPipeObj.pipeReader()    
 
     async def tradequeueLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
