@@ -69,7 +69,9 @@ class ledyBotChat:
     async def tradequeueLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
-        await self.ledyPipeObj.pipeWriter("tradequeue")       
+        await self.ledyPipeObj.pipeWriter("tradequeue")
+        await self.ledyPipeObj.pipeReader()         
+        
 
 
 #refresh [mode] [filename]
