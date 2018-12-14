@@ -29,6 +29,7 @@ class ledyBotChat:
         config.events.addCommandType(commandType="ledyDsStop",commandHandler=self.stopLedyBot)
         config.events.addCommandType(commandType="ledyDsConnect",commandHandler=self.connectDSLedyBot)
         config.events.addCommandType(commandType="ledyDsDisconnect",commandHandler=self.disconnectDSLedyBot)
+        config.events.addCommandType(commandType="ledyDsRefresh",commandHandler=self.refreshLedyBot)
         #config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
 
 
@@ -51,7 +52,23 @@ class ledyBotChat:
     async def disconnectDSLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
-        await self.ledyPipeObj.pipeWriter("disconnect3ds")       
+        await self.ledyPipeObj.pipeWriter("disconnect3ds")   
+
+    async def refreshLedyBot(self,message,command):
+        # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
+        #     self.l.logger.info("Starting Ledybot")
+        splitMsg = message.Message.Contents.split(" ")
+        if len(splitMsg) == 3:
+            await self.ledyPipeObj.pipeWriter("refresh {0} {1}".format(splitMsg[1],splitMsg[2])) 
+        elif len(splitMsg) == 2:
+            await self.ledyPipeObj.pipeWriter("refresh {0} {1}".format(splitMsg[1],splitMsg[2])) 
+        elif len(splitMsg) == 1:
+            await self.ledyPipeObj.pipeWriter("refresh") 
+
+    async def tradequeueLedyBot(self,message,command):
+        # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
+        #     self.l.logger.info("Starting Ledybot")
+        await self.ledyPipeObj.pipeWriter("tradequeue")       
 
 
 #refresh [mode] [filename]

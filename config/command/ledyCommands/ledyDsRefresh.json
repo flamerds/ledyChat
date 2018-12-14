@@ -1,0 +1,7 @@
+{
+    "CommandType":"ledyDsRefresh",
+    "Command": "!ledyRefresh",
+    "CommandDetails": "",
+    "RolesAllowed": ["Owner","Mod"],
+    "HelpDetails": "Connects ledy bot"
+}
