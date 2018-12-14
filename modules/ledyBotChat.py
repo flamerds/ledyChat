@@ -71,10 +71,19 @@ class ledyBotChat:
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("togglequeue")
-        await self.ledyPipeObj.pipeReader()         
+        commandOutput = await self.ledyPipeObj.pipeReader()  
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
         
 
 
+    async def processMsg(self,username,message,roleList,server,channel,service):
+        print("ya... {0}".format(message))
+        formatOptions = {"%authorName%": username, "%channelFrom%": channel, "%serverFrom%": server, "%serviceFrom%": service,"%message%":"message","%roles%":roleList}
+        message = Object.ObjectLayout.message(Author=username,Contents=message,Server=server,Channel=channel,Service=service,Roles=roleList)
+        objDeliveryDetails = Object.ObjectLayout.DeliveryDetails(Module="Command",ModuleTo="Site",Service=service,Server=server,Channel=channel)
+        objSendMsg = Object.ObjectLayout.sendMsgDeliveryDetails(Message=message, DeliveryDetails=objDeliveryDetails, FormattingOptions=formatOptions,messageUnchanged="None")
+        config.events.onMessageSend(sndMessage=objSendMsg)     
 #refresh [mode] [filename]
 
 #connect3ds 
