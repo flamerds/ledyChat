@@ -83,3 +83,5 @@ class ledyBotChat:
 #startgtsbot 
 
 #stopgtsbot 
+
+ledy = ledyBotChat()
