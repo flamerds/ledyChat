@@ -30,6 +30,7 @@ class ledyBotChat:
         config.events.addCommandType(commandType="ledyDsConnect",commandHandler=self.connectDSLedyBot)
         config.events.addCommandType(commandType="ledyDsDisconnect",commandHandler=self.disconnectDSLedyBot)
         config.events.addCommandType(commandType="ledyDsRefresh",commandHandler=self.refreshLedyBot)
+        config.events.addCommandType(commandType="ledyDsTradequeue",commandHandler=self.tradequeueLedyBot)
         #config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
 
 
@@ -69,7 +70,7 @@ class ledyBotChat:
     async def tradequeueLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
-        await self.ledyPipeObj.pipeWriter("tradequeue")
+        await self.ledyPipeObj.pipeWriter("togglequeue")
         await self.ledyPipeObj.pipeReader()         
         
 
