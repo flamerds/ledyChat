@@ -19,7 +19,7 @@ class ledyBotChat:
         self.ledyPipeReaderObj = pipeClient.pipeClient(r"\\.\pipe\Demo1")
         loop.create_task(self.ledyReader())
 
-    async def ledyReader(self):
+    async def ledyReader(self): #reads all messages that come in. hopefully it gets broadcasted to both pipes
         while True:
             commandOutput = await self.ledyPipeReaderObj.pipeReader()
             commandOutput = await self.messageFix(commandOutput)
@@ -27,23 +27,22 @@ class ledyBotChat:
 
             self.l.logger.info("[but] {0}".format(commandOutput))
 
-    async def messageFix(self,message):
+    async def messageFix(self,message): #fixes the first two characters missing from the pipe
         if message.split(":")[0] == "g": #msg fix
                 message = "ms{0}".format(message)
         elif message.split(":")[0] == "mmand": #command fix
             message = "co{0}".format(message)
         return message
 
-    async def getMessage(self,messageType):
+    async def getMessage(self,messageType): #cycles message in case it recieves a msg not a command respond
         commandOutput = ""
-
         while commandOutput.split(":")[0] != messageType:
             commandOutput = await self.ledyPipeObj.pipeReader()
             commandOutput = await self.messageFix(commandOutput)
         return commandOutput
 
 
-    async def ledyCommands(self):
+    async def ledyCommands(self): #adds the commands to the commands module
         config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
         config.events.addCommandType(commandType="ledyDsStop",commandHandler=self.stopLedyBot)
         config.events.addCommandType(commandType="ledyDsConnect",commandHandler=self.connectDSLedyBot)
