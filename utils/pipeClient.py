@@ -1,10 +1,8 @@
 import asyncio
 import sys
-
 import time
 import win32pipe, win32file, pywintypes
 import threading
-
 import struct
 import codecs
 
@@ -54,10 +52,8 @@ class pipeClient():
         pipe.seek(0)
         print("written")
 
-
     def start(self):
         self.loop.run_forever()
-
 
 class pipeReader(threading.Thread):
     def __init__(self,pipe):
