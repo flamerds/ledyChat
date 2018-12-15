@@ -44,16 +44,28 @@ class ledyBotChat:
         # if (message.Message.Contents == "!STOP") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("stopgtsbot")
+        commandOutput = await self.ledyPipeObj.pipeReader()
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+
             
     async def connectDSLedyBot(self,message,command):
         # if (message.Message.Contents == "!CONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
-            await self.ledyPipeObj.pipeWriter("connect3ds")
+        await self.ledyPipeObj.pipeWriter("connect3ds")
+        commandOutput = await self.ledyPipeObj.pipeReader()
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+  
 
     async def disconnectDSLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("disconnect3ds")   
+        commandOutput = await self.ledyPipeObj.pipeReader()
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+  
 
     async def refreshLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
@@ -65,7 +77,10 @@ class ledyBotChat:
             await self.ledyPipeObj.pipeWriter("refresh {0} {1}".format(splitMsg[1],splitMsg[2])) 
         elif len(splitMsg) == 1:
             await self.ledyPipeObj.pipeWriter("refresh") 
-        await self.ledyPipeObj.pipeReader()    
+        commandOutput = await self.ledyPipeObj.pipeReader()
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+    
 
     async def tradequeueLedyBot(self,message,command):
         # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
@@ -84,6 +99,8 @@ class ledyBotChat:
         objDeliveryDetails = Object.ObjectLayout.DeliveryDetails(Module="Command",ModuleTo="Site",Service=service,Server=server,Channel=channel)
         objSendMsg = Object.ObjectLayout.sendMsgDeliveryDetails(Message=message, DeliveryDetails=objDeliveryDetails, FormattingOptions=formatOptions,messageUnchanged="None")
         config.events.onMessageSend(sndMessage=objSendMsg)     
+
+
 #refresh [mode] [filename]
 
 #connect3ds 
