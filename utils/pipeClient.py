@@ -58,15 +58,25 @@ class pipeClient():
             # except pywintypes.error as e:
             #     pass
 
+    # async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
+    #     print("Starting read")
+    #     n = struct.unpack('I', self.pipe.read(4))[0]    # Read str length
+    #     resp = self.pipe.read(n)                           # Read str
+    #     print(type(resp))
+    #     self.pipe.seek(0) 
+    #     print(resp) 
+    #     resp = resp.decode('utf-16')      
+    #     #resp[1] = resp[1].decode('utf-16')
+    #     print(resp)
+    #     return resp
+
     async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
         print("Starting read")
-        n = struct.unpack('I', self.pipe.read(4))[0]    # Read str length
-        resp = self.pipe.read(n)                           # Read str
-        print(type(resp))
-        self.pipe.seek(0) 
-        print(resp) 
-        resp = resp.decode('utf-16')      
-        #resp[1] = resp[1].decode('utf-16')
+        reader = pipeReader(self.pipe)
+        reader.start()
+        while reader.reader == None:
+            await asyncio.sleep(1)
+        resp = reader.reader
         print(resp)
         return resp
 
@@ -98,7 +108,7 @@ class pipeClient():
         self.loop.run_forever()
 
 
-class pipeReader(threading.Thread):   
+class pipeReader(threading.Thread):
     def __init__(self,pipe):
         #self.logger=logger
         self.reader = None
@@ -111,7 +121,7 @@ class pipeReader(threading.Thread):
                 n = struct.unpack('I', self.pipe.read(4))[0]    # Read str length
                 resp = self.pipe.read(n)                           # Read str
                 self.pipe.seek(0)        
-                resp[1] = resp[1].decode('utf-16')
+                resp = resp.decode('utf-16')
                 self.reader = resp
                 print(resp)
                 time.sleep(5)
