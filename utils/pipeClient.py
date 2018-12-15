@@ -14,7 +14,8 @@ import random
 class pipeClient():
     def __init__(self,pipeName):
         self.pipeName=pipeName
-        self.pipe = open(pipeName, 'r+b', 0)       
+        self.pipe = open(pipeName, 'r+b', 0) 
+        self.pipeState = "clear"      
 
 
     async def pipeHandler(self): 
@@ -44,17 +45,27 @@ class pipeClient():
     #     return resp
 
     async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
+        while self.pipeState != "clear":
+            await asyncio.sleep(0.01)
+        self.pipeState = "inUse"
         print("Starting read")
         reader = pipeReader(self.pipe)
         reader.start()
         while reader.reader == None:
             await asyncio.sleep(1)
         resp = reader.reader
+        while self.thread.is_alive():
+            await asyncio.sleep(0.01)
         reader.join()
+        self.pipeState = "clear"
         return resp
 
     async def pipeWriter(self,data):
         print("blah")
+        while self.pipeState != "clear":
+            await asyncio.sleep(0.01)
+            print("waiting")
+        self.pipeState = "inUse"
         print("Active Threads: {0}".format(threading.active_count()))
         try:
             # convert to bytes
@@ -63,12 +74,15 @@ class pipeClient():
             print(some_data)
             self.thread = threading.Thread(name='pipeWriter',target=self.write, args=[self.pipe, some_data])
             self.thread.start()
-            await asyncio.sleep(2)
+            #await asyncio.sleep(2)
+            while self.thread.is_alive():
+                await asyncio.sleep(0.01)
             print("YAYYY")
             #win32file.WriteFile(handle, some_data)
         except pywintypes.error as e:
             print("error...")
             pass
+        self.pipeState = "clear"
     
     def write(self,pipe,data):
         print("writing")
