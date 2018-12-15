@@ -14,12 +14,8 @@ import random
 class pipeClient():
     def __init__(self,pipeName):
         self.pipeName=pipeName
-        #self.returnHandler=returnHandler
         self.pipe = open(pipeName, 'r+b', 0)       
-        self.loop = asyncio.get_event_loop()
-        #self.loop.create_task(self.pipeHandler())
-        #self.loop.create_task(self.pipeReader())
-        #self.loop.create_task(self.pipeWriter())
+
 
     async def pipeHandler(self): 
         while True:
@@ -34,29 +30,6 @@ class pipeClient():
                     quit = True
             asyncio.sleep(0.5)
 
-    async def continuousPipeReader(self):
-        while True:
-            self.reader = pipeReader(self.pipe)
-            self.reader.start()
-            count = 0
-            while self.reader.reader == None:
-                count+=1
-                if self.reader.reader != None:
-                    #await self.returnHandler(self.reader.reader)
-                    print(f"message: {self.reader.reader}")
-                await asyncio.sleep(0.5)
-                if count == 5:
-                    print("tooo Long")
-                    #self.reader.join()
-                    #print(self.reader.is_alive())
-                    await asyncio.sleep(55)
-            # try:
-            #     print("BLAHH")
-            #     resp =  win32file.ReadFile(self.pipe, 64*1024)
-            #     print(f"message: {resp}")
-            #     await asyncio.sleep(0.5)
-            # except pywintypes.error as e:
-            #     pass
 
     # async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
     #     print("Starting read")
