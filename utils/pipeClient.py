@@ -8,41 +8,11 @@ import threading
 import struct
 import codecs
 
-#not required
-import random
-
 class pipeClient():
     def __init__(self,pipeName):
         self.pipeName=pipeName
         self.pipe = open(pipeName, 'r+b', 0) 
         self.pipeState = "clear"      
-
-
-    async def pipeHandler(self): 
-        while True:
-            try:
-                self.pipe=win32file.CreateFile(r'\\.\pipe\Demo', win32file.GENERIC_READ | win32file.GENERIC_WRITE, 0, None, win32file.OPEN_EXISTING, 0, None)
-            except pywintypes.error as e:
-                if e.args[0] == 2:
-                    print("no pipe, trying again in a sec")
-                    time.sleep(1)
-                elif e.args[0] == 109:
-                    print("broken pipe, bye bye")
-                    quit = True
-            asyncio.sleep(0.5)
-
-
-    # async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
-    #     print("Starting read")
-    #     n = struct.unpack('I', self.pipe.read(4))[0]    # Read str length
-    #     resp = self.pipe.read(n)                           # Read str
-    #     print(type(resp))
-    #     self.pipe.seek(0) 
-    #     print(resp) 
-    #     resp = resp.decode('utf-16')      
-    #     #resp[1] = resp[1].decode('utf-16')
-    #     print(resp)
-    #     return resp
 
     async def pipeReader(self): #for whatever reason this reads but however it doesnt get the first two characters
         while self.pipeState != "clear":
@@ -68,17 +38,11 @@ class pipeClient():
         self.pipeState = "inUse"
         print("Active Threads: {0}".format(threading.active_count()))
         try:
-            # convert to bytes
-            #some_data = data.encode('utf-16')
-            some_data = data
-            print(some_data)
-            self.thread = threading.Thread(name='pipeWriter',target=self.write, args=[self.pipe, some_data])
+            self.thread = threading.Thread(name='pipeWriter',target=self.write, args=[self.pipe, data])
             self.thread.start()
-            #await asyncio.sleep(2)
             while self.thread.is_alive():
                 await asyncio.sleep(0.01)
             print("YAYYY")
-            #win32file.WriteFile(handle, some_data)
         except pywintypes.error as e:
             print("error...")
             pass
