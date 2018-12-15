@@ -89,6 +89,15 @@ class ledyBotChat:
         commandOutput = await self.ledyPipeObj.pipeReader()  
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+
+    async def viewqueueLedyBot(self,message,command):
+        # if (message.Message.Contents == "!DISCONNECT") & await self.roleChecker(["Normal"],message.Message.Roles) == True:
+        #     self.l.logger.info("Starting Ledybot")
+        await self.ledyPipeObj.pipeWriter("viewqueue")
+        commandOutput = await self.ledyPipeObj.pipeReader()  
+        botRoles= {"":0}
+        await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
+        
         
 
 
