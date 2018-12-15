@@ -38,7 +38,12 @@ class ledyBotChat:
     async def ledyReader(self):
         while True:
             commandOutput = await self.ledyPipeReaderObj.pipeReader()
+            if commandOutput.split(":")[0] == "g": #msg fix
+                commandOutput = "ms{0}".format(commandOutput)
+            elif commandOutput.split(":")[0] == "mmand"#command fix
+                commandOutput = "co{0}".format(commandOutput)
             print("reader...")
+
             self.l.logger.info("[but] {0}".format(commandOutput))
 
 
