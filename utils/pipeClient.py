@@ -80,6 +80,7 @@ class pipeClient():
             print(some_data)
             self.thread = threading.Thread(name='pipeWriter',target=self.write, args=[self.pipe, some_data])
             self.thread.start()
+            await asyncio.sleep(2)
             print("YAYYY")
             #win32file.WriteFile(handle, some_data)
         except pywintypes.error as e:
