@@ -31,6 +31,7 @@ class ledyBotChat:
         config.events.addCommandType(commandType="ledyDsDisconnect",commandHandler=self.disconnectDSLedyBot)
         config.events.addCommandType(commandType="ledyDsRefresh",commandHandler=self.refreshLedyBot)
         config.events.addCommandType(commandType="ledyDsTradequeue",commandHandler=self.tradequeueLedyBot)
+        config.events.addCommandType(commandType="ledyDsViewqueue",commandHandler=self.viewqueueLedyBot)
         #config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
 
 
@@ -118,6 +119,20 @@ class ledyBotChat:
 
 #startgtsbot 
 
+
+
 #stopgtsbot 
+
+'''
+whats missing:
+    trade commnad
+        to add trades i think?
+
+    remove command
+        remove trades???
+
+    responding to any message that may come through
+
+'''
 
 ledy = ledyBotChat()
