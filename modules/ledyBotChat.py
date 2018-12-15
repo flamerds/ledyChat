@@ -34,6 +34,14 @@ class ledyBotChat:
             message = "co{0}".format(message)
         return message
 
+    async def getMessage(self,messageType):
+        commandOutput = ""
+
+        while commandOutput.split(":")[0] != messageType:
+            commandOutput = await self.ledyPipeObj.pipeReader()
+            commandOutput = await self.messageFix(commandOutput)
+        return commandOutput
+
 
     async def ledyCommands(self):
         config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
@@ -51,24 +59,21 @@ class ledyBotChat:
 
     async def stopLedyBot(self,message,command):
         await self.ledyPipeObj.pipeWriter("stopgtsbot")
-        commandOutput = await self.ledyPipeObj.pipeReader()
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
 
             
     async def connectDSLedyBot(self,message,command):
         await self.ledyPipeObj.pipeWriter("connect3ds")
-        commandOutput = await self.ledyPipeObj.pipeReader()
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
   
 
     async def disconnectDSLedyBot(self,message,command):
         await self.ledyPipeObj.pipeWriter("disconnect3ds")   
-        commandOutput = await self.ledyPipeObj.pipeReader()
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
   
@@ -81,26 +86,24 @@ class ledyBotChat:
             await self.ledyPipeObj.pipeWriter("refresh {0} {1}".format(splitMsg[1],splitMsg[2])) 
         elif len(splitMsg) == 1:
             await self.ledyPipeObj.pipeWriter("refresh") 
-        commandOutput = await self.ledyPipeObj.pipeReader()
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
     
 
     async def tradequeueLedyBot(self,message,command):
         await self.ledyPipeObj.pipeWriter("togglequeue")
-        commandOutput = await self.ledyPipeObj.pipeReader()  
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
 
     async def viewqueueLedyBot(self,message,command):
         await self.ledyPipeObj.pipeWriter("viewqueue")
-        commandOutput = await self.ledyPipeObj.pipeReader()  
-        commandOutput = await self.messageFix(commandOutput)
+        commandOutput = await self.getMessage("command")
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
         
+
         
 
 
