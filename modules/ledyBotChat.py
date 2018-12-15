@@ -38,7 +38,7 @@ class ledyBotChat:
     async def ledyReader(self):
         while True:
             commandOutput = await self.ledyPipeReaderObj.pipeReader()
-            
+            commandOutput = await self.messageFix(commandOutput)
             print("reader...")
 
             self.l.logger.info("[but] {0}".format(commandOutput))
@@ -73,6 +73,7 @@ class ledyBotChat:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("stopgtsbot")
         commandOutput = await self.ledyPipeObj.pipeReader()
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
 
@@ -82,6 +83,7 @@ class ledyBotChat:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("connect3ds")
         commandOutput = await self.ledyPipeObj.pipeReader()
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
   
@@ -91,6 +93,7 @@ class ledyBotChat:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("disconnect3ds")   
         commandOutput = await self.ledyPipeObj.pipeReader()
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
   
@@ -106,6 +109,7 @@ class ledyBotChat:
         elif len(splitMsg) == 1:
             await self.ledyPipeObj.pipeWriter("refresh") 
         commandOutput = await self.ledyPipeObj.pipeReader()
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
     
@@ -115,6 +119,7 @@ class ledyBotChat:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("togglequeue")
         commandOutput = await self.ledyPipeObj.pipeReader()  
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
 
@@ -123,6 +128,7 @@ class ledyBotChat:
         #     self.l.logger.info("Starting Ledybot")
         await self.ledyPipeObj.pipeWriter("viewqueue")
         commandOutput = await self.ledyPipeObj.pipeReader()  
+        commandOutput = await self.messageFix(commandOutput)
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
         
