@@ -10,14 +10,14 @@ from utils import pipeClient
 
 class ledyBotChat:
     def __init__(self):
-        self.l = logger.logs("ledyBotChat")
+        self.l = logger.logs("ledyBotChat") #creates the logger 
         self.l.logger.info("Starting")
         loop = asyncio.get_event_loop()
-        loop.create_task(self.ledyCommands())
-        self.l.logger.info("Started")
-        self.ledyPipeObj = pipeClient.pipeClient(r"\\.\pipe\Demo")
-        self.ledyPipeReaderObj = pipeClient.pipeClient(r"\\.\pipe\Demo1")
+        loop.create_task(self.ledyCommands())#creates the add commands task
+        self.ledyPipeObj = pipeClient.pipeClient(r"\\.\pipe\Demo") #loads the command pipe client
+        self.ledyPipeReaderObj = pipeClient.pipeClient(r"\\.\pipe\Demo1") #loads the reader pipe client
         loop.create_task(self.ledyReader())
+        self.l.logger.info("Started")
 
     async def ledyReader(self): #reads all messages that come in. hopefully it gets broadcasted to both pipes
         while True:
@@ -96,7 +96,7 @@ class ledyBotChat:
         botRoles= {"":0}
         await self.processMsg(message=commandOutput,username="Bot",channel=message.Message.Channel,server=message.Message.Server,service=message.Message.Service,roleList=botRoles)       
 
-    async def viewqueueLedyBot(self,message,command):
+    async def viewqueueLedyBot(self,message,command): #views the trade queue. it can accept whatever page u wanna view of the trade queue as well
         await self.ledyPipeObj.pipeWriter("viewqueue")
         commandOutput = await self.getMessage("command")
         botRoles= {"":0}
