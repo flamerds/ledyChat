@@ -12,9 +12,9 @@ import codecs
 import random
 
 class pipeClient():
-    def __init__(self,pipeName,returnHandler):
+    def __init__(self,pipeName):
         self.pipeName=pipeName
-        self.returnHandler=returnHandler
+        #self.returnHandler=returnHandler
         self.pipe = open(pipeName, 'r+b', 0)       
         self.loop = asyncio.get_event_loop()
         #self.loop.create_task(self.pipeHandler())
