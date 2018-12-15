@@ -52,7 +52,7 @@ class pipeClient():
         reader = pipeReader(self.pipe)
         reader.start()
         while reader.reader == None:
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.01)
         resp = reader.reader
         while self.thread.is_alive():
             await asyncio.sleep(0.01)
@@ -109,6 +109,5 @@ class pipeReader(threading.Thread):
                 self.pipe.seek(0)        
                 resp = resp.decode('utf-16')
                 self.reader = resp
-                time.sleep(5)
             except pywintypes.error as e:
                 print("[Pipe Reader] Ouch..  that did not work as intended...")
