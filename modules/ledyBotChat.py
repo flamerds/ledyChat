@@ -18,11 +18,29 @@ class ledyBotChat:
         #config.events.onMessage += self.stopLedyBot
         #config.events.onMessage += self.connectDSLedyBot
         #config.events.onMessage += self.disconnectDSLedyBot
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
+        self.l.logger.info("Starting")
         
 
         self.l.logger.info("Started")
         self.ledyPipeObj = pipeClient.pipeClient(r"\\.\pipe\Demo")
+        self.ledyPipeReaderObj = pipeClient.pipeClient(r"\\.\pipe\Demo1")
+        loop.create_task(self.ledyReader())
         #self.ledyPipeObj.start()
+
+    async def ledyReader(self):
+        while True:
+            commandOutput = await self.ledyPipeReaderObj.pipeReader()
+            print("reader...")
+            self.l.logger.info("[but] {0}".format(commandOutput))
+
 
     async def ledyCommands(self):
         config.events.addCommandType(commandType="ledyDsStart",commandHandler=self.startLedyBot)
