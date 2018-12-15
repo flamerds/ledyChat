@@ -77,6 +77,7 @@ class pipeClient():
         while reader.reader == None:
             await asyncio.sleep(1)
         resp = reader.reader
+        reader.join()
         print(resp)
         return resp
 
